@@ -1,5 +1,15 @@
 # NANCE - API Controle Financeiro
 
+Construindo uma API de Controle Financeiro com Spring Boot:
+
+H2
+* Parametros adicionados no arquivo application.properties
+> ```http://localhost:8081/h2```
+* Swagger
+  > ```http://localhost:8081/swagger-ui.html ```
+
+  ![Image Swagger](https://github.com/augustocrf/Nance-api/blob/main/img/swaggerNance.jpg)
+
 Java | Gradle |Spring boot | Spring Data Jpa | Hibernate | Lombok | swagger | h2 | PostMan
 
 * [Java | Oracle](https://www.java.com/pt-BR/)
