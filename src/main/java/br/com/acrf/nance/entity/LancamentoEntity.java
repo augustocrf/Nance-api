@@ -1,5 +1,7 @@
 package br.com.acrf.nance.entity;
 
+import br.com.acrf.nance.type.LancamentoType;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,6 +20,11 @@ public class LancamentoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_lancamento;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    @ApiModelProperty(notes = "Tipo Lançamento (Despesa, Receita)",name="lancamentoType",required=true)
+    private LancamentoType lancamentoType;
 
     @Column(nullable = false)
     private BigDecimal valor;
