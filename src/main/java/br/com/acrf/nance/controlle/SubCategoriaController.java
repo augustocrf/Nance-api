@@ -20,8 +20,9 @@ public class SubCategoriaController {
     }
 
     @PutMapping()
-    public ResponseEntity<SubCategoriaEntity> update(@RequestBody SubCategoriaEntity subCategoriaEntity){
-        return ResponseEntity.ok(this.subCategoriaService.update(subCategoriaEntity));
+    public ResponseEntity<SubCategoriaEntity> update(@PathVariable("id_subcategoria") Long id_subcategoria,
+                                                     @RequestBody SubCategoriaEntity subCategoriaEntity) throws Exception {
+        return ResponseEntity.ok(this.subCategoriaService.update(id_subcategoria, subCategoriaEntity));
     }
 
     @DeleteMapping("/{id_subcategoria}")

@@ -35,8 +35,8 @@ public class CategoriaController {
     }
 
     @PutMapping()
-    public ResponseEntity<CategoriaEntity> update(@RequestBody CategoriaEntity categoriaEntity){
-        return new ResponseEntity<>(this.categoriaService.update(categoriaEntity), HttpStatus.OK);
+    public ResponseEntity<CategoriaEntity> update(@PathVariable("id_categoria") Long id_categoria, @RequestBody CategoriaEntity categoriaEntity) throws Exception {
+        return new ResponseEntity<>(this.categoriaService.update(id_categoria, categoriaEntity), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id_categoria}")

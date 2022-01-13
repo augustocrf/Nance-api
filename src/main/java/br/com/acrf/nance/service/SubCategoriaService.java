@@ -24,12 +24,17 @@ public class SubCategoriaService {
         return this.subCategoriaRepository.save(subCategoriaEntity);
     }
 
-    public SubCategoriaEntity update(SubCategoriaEntity subCategoriaEntity){
+    public SubCategoriaEntity update(Long id_subcategoria, SubCategoriaEntity subCategoriaEntity) throws Exception {
+        verifyIfExists(id_subcategoria);
+
+        subCategoriaEntity.setId_subcategoria(id_subcategoria);
+
         return this.subCategoriaRepository.save(subCategoriaEntity);
     }
 
-    public void deleteByID(Long id_subcategoria)
-    {
+    public void deleteByID(Long id_subcategoria) throws Exception {
+        verifyIfExists(id_subcategoria);
+
         this.subCategoriaRepository.deleteById(id_subcategoria);
     }
 
@@ -39,5 +44,10 @@ public class SubCategoriaService {
 
     public Optional<SubCategoriaEntity> findByID(Long id_subcategoria){
         return this.subCategoriaRepository.findById(id_subcategoria);
+    }
+
+    public SubCategoriaEntity verifyIfExists(Long id_subcategoria) throws Exception{
+        return this.subCategoriaRepository.findById(id_subcategoria)
+                .orElseThrow(() -> new Exception(String.format("Subcategoria com o número %s não localizada! ",id_subcategoria)));
     }
 }

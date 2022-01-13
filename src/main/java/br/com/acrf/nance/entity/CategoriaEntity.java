@@ -15,7 +15,7 @@ public class CategoriaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ApiModelProperty(notes = "Id da Categoria - IDENTITY",name="id_categoria",required=false)
+    @ApiModelProperty(notes = "Id da Categoria - IDENTITY",name="id_categoria",required=true)
     private Long id_categoria;
 
     @Column(nullable = false)

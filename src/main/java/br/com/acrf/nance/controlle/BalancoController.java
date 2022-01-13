@@ -1,8 +1,7 @@
 package br.com.acrf.nance.controlle;
 
-import br.com.acrf.nance.entity.CategoriaEntity;
-import br.com.acrf.nance.service.CategoriaService;
-import br.com.acrf.nance.service.LancamentoService;
+import br.com.acrf.nance.entity.BalancoEntity;
+import br.com.acrf.nance.service.BalancoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,14 +18,11 @@ import java.util.Optional;
 public class BalancoController {
 
     @Autowired
-    CategoriaService categoriaService;
-
-    @Autowired
-    LancamentoService lancamentoService;
+    BalancoService balancoService;
 
     @GetMapping()
-    public ResponseEntity<List<CategoriaEntity>> get(@RequestParam(name="data_inicio") Optional<LocalDate> data_inicio, @RequestParam(name="data_fim") Optional<LocalDate> data_fim, @RequestParam(name="id_categoria") Optional<Long> id_categoria){
-        return ResponseEntity.ok(this.categoriaService.findAll());
+    public ResponseEntity<BalancoEntity> get(@RequestParam(name="data_inicio") LocalDate data_inicio, @RequestParam(name="data_fim") LocalDate data_fim, @RequestParam(name="id_categoria") Optional<Long> id_categoria){
+        return ResponseEntity.ok(this.balancoService.get(data_inicio, data_fim, id_categoria.orElse(0l)));
     }
 
 }

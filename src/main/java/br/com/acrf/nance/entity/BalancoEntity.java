@@ -11,8 +11,9 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class BalancoEntity {
 
-    private CategoriaEntity categoriaEntity;
+    private CategoriaDTOEntity categoriaEntity;
     private BigDecimal receita;
     private BigDecimal despesa;
     private BigDecimal saldo;
 }
+

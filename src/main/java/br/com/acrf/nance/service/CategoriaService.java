@@ -21,12 +21,18 @@ public class CategoriaService {
         return this.categoriaRepository.save(categoriaEntity);
     }
 
-    public CategoriaEntity update(CategoriaEntity categoriaEntity){
+    public CategoriaEntity update(Long id_categoria, CategoriaEntity categoriaEntity) throws Exception {
+
+        verifyIfExists(id_categoria);
+
+        categoriaEntity.setId_categoria(id_categoria);
+
         return this.categoriaRepository.save(categoriaEntity);
     }
 
-    public void deleteByID(Long id_categoria)
-    {
+    public void deleteByID(Long id_categoria) throws Exception {
+        verifyIfExists(id_categoria);
+
         this.categoriaRepository.deleteById(id_categoria);
     }
 
@@ -36,5 +42,10 @@ public class CategoriaService {
 
     public Optional<CategoriaEntity> findByID(Long id_categoria){
         return this.categoriaRepository.findById(id_categoria);
+    }
+
+    public CategoriaEntity verifyIfExists(Long id_categoria) throws Exception{
+        return this.categoriaRepository.findById(id_categoria)
+                .orElseThrow(() -> new Exception(String.format("Categoria com o número %s não localizada! ",id_categoria)));
     }
 }

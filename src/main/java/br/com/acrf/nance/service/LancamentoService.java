@@ -1,6 +1,8 @@
 package br.com.acrf.nance.service;
 
+import br.com.acrf.nance.entity.CategoriaEntity;
 import br.com.acrf.nance.entity.LancamentoEntity;
+import br.com.acrf.nance.entity.SubCategoriaEntity;
 import br.com.acrf.nance.repository.LancamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,12 +23,16 @@ public class LancamentoService {
         return this.lancamentoRepository.save(lancamentoEntity);
     }
 
-    public LancamentoEntity update(LancamentoEntity lancamentoEntity){
+    public LancamentoEntity update(Long id_lancamento, LancamentoEntity lancamentoEntity) throws Exception {
+        verifyIfExists(id_lancamento);
+
+        lancamentoEntity.setId_lancamento(id_lancamento);
         return this.lancamentoRepository.save(lancamentoEntity);
     }
 
-    public void deleteByID(Long id_lancamento)
-    {
+    public void deleteByID(Long id_lancamento) throws Exception {
+        verifyIfExists(id_lancamento);
+
         this.lancamentoRepository.deleteById(id_lancamento);
     }
 
@@ -36,5 +42,10 @@ public class LancamentoService {
 
     public Optional<LancamentoEntity> findByID(Long id_lancamento){
         return this.lancamentoRepository.findById(id_lancamento);
+    }
+
+    public LancamentoEntity verifyIfExists(Long id_lancamento) throws Exception{
+        return this.lancamentoRepository.findById(id_lancamento)
+                .orElseThrow(() -> new Exception(String.format("Lançamento com o número %s não localizada! ",id_lancamento)));
     }
 }
