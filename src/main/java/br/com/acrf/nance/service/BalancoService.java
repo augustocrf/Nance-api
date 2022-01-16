@@ -29,51 +29,32 @@ public class BalancoService {
     }
 
     public BalancoEntity get(LocalDate data_inicio, LocalDate data_fim, Long id_categoria){
-        BalancoEntity balancoEntityOptional = new BalancoEntity();
+        BalancoEntity balancoEntity = new BalancoEntity();
         CategoriaEntity categoriaEntity = new CategoriaEntity();
-        List<LancamentoEntity> lancamentoEntityList = new ArrayList<>();
-        List<SubCategoriaEntity> subCategoriaEntityList = new ArrayList<>();
 
-        LocalDate data_teste = data_inicio.plusDays(-1l);
-        lancamentoEntityList = this.lancamentoRepository.findAll()
-                        .stream().filter(l -> l.getData().isAfter(data_inicio.plusDays(-1l))
-                                        && l.getData().isBefore(data_fim.plusDays(1))
-                                                ).collect(Collectors.toList());
+        BigDecimal valorTotalDespesa = BigDecimal.valueOf(0l);
 
         // Buscar a Receita antes do filtro de categoria
-        BigDecimal valorTotalReceita = lancamentoEntityList.stream()
-                .filter(l -> l.getLancamentoType() == LancamentoType.RECEITA)
-                .map(la -> la.getValor())
-                .reduce(BigDecimal.valueOf(0),BigDecimal::add);
+        BigDecimal valorTotalReceita = this.lancamentoRepository.getReceita(data_inicio,data_fim);
 
+        // Buscar a Despesa e filtro de categoria
         if (id_categoria > 0) {
             categoriaEntity = this.categoriaRepository.getById(id_categoria);
 
-            CategoriaDTOEntity categoriaDTOEntity = new CategoriaDTOEntity(categoriaEntity.getId_categoria(), categoriaEntity.getNome());
-            balancoEntityOptional.setCategoriaEntity(categoriaDTOEntity);
+            CategoriaDTOEntity categoriaDTOEntity = new CategoriaDTOEntity(categoriaEntity.getId_categoria(),
+                                                                        categoriaEntity.getNome());
+            balancoEntity.setCategoriaEntity(categoriaDTOEntity);
 
-            subCategoriaEntityList = this.subCategoriaRepository.findAll().stream()
-                    .filter(s -> s.getId_categoria().equals(id_categoria)).collect(Collectors.toList());
+            valorTotalDespesa = this.lancamentoRepository.getDespesa(data_inicio, data_fim, id_categoria);
 
-            List<Long> subCategoriaEntityList1
-                    = this.subCategoriaRepository.findAll().stream()
-                    .filter(s -> s.getId_categoria().equals(id_categoria))
-                    .map(su -> su.getId_subcategoria()).collect(Collectors.toList());
-
-            lancamentoEntityList = lancamentoEntityList.stream()
-                    .filter(l -> subCategoriaEntityList1.contains(l.getId_subcategoria())).collect(Collectors.toList());
-        }
-        BigDecimal valorTotalDespesa = lancamentoEntityList.stream()
-                .filter(l -> l.getLancamentoType() == LancamentoType.DESPESA)
-                .map(la -> la.getValor())
-                .reduce(BigDecimal.valueOf(0),BigDecimal::add);
+        } else  { valorTotalDespesa = this.lancamentoRepository.getDespesa(data_inicio,data_fim); }
 
         BigDecimal valorSaldo = valorTotalReceita.subtract(valorTotalDespesa);
 
-        balancoEntityOptional.setDespesa(valorTotalDespesa);
-        balancoEntityOptional.setReceita(valorTotalReceita);
-        balancoEntityOptional.setSaldo(valorSaldo);
+        balancoEntity.setDespesa(valorTotalDespesa);
+        balancoEntity.setReceita(valorTotalReceita);
+        balancoEntity.setSaldo(valorSaldo);
 
-        return balancoEntityOptional;
+        return balancoEntity;
     }
 }

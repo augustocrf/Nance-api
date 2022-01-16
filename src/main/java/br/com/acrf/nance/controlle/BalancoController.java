@@ -2,6 +2,7 @@ package br.com.acrf.nance.controlle;
 
 import br.com.acrf.nance.entity.BalancoEntity;
 import br.com.acrf.nance.service.BalancoService;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ public class BalancoController {
     BalancoService balancoService;
 
     @GetMapping()
+    @ApiModelProperty(notes = "Data inicio formarto('dd/mm/yyyy'",name="data_inicio", required = true)
     public ResponseEntity<BalancoEntity> get(@RequestParam(name="data_inicio") LocalDate data_inicio, @RequestParam(name="data_fim") LocalDate data_fim, @RequestParam(name="id_categoria") Optional<Long> id_categoria){
         return ResponseEntity.ok(this.balancoService.get(data_inicio, data_fim, id_categoria.orElse(0l)));
     }
