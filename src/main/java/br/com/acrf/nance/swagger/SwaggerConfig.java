@@ -38,7 +38,7 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(buildApiInfo())
-                .securitySchemes(Arrays.asList(new ApiKey("Token Access", HttpHeaders.AUTHORIZATION, In.HEADER.name())))
+                .securitySchemes(Arrays.asList(new ApiKey("Token Access", "api-key", In.HEADER.name())))
                 .securityContexts(Arrays.asList(securityContext()));
     }
 

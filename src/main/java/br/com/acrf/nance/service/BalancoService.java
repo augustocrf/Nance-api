@@ -31,7 +31,6 @@ public class BalancoService {
     public BalancoEntity get(LocalDate data_inicio, LocalDate data_fim, Long id_categoria){
         BalancoEntity balancoEntity = new BalancoEntity();
         CategoriaEntity categoriaEntity = new CategoriaEntity();
-
         BigDecimal valorTotalDespesa = BigDecimal.valueOf(0l);
 
         // Buscar a Receita antes do filtro de categoria

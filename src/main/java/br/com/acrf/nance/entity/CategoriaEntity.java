@@ -20,6 +20,6 @@ public class CategoriaEntity {
     private Long id_categoria;
 
     @Column(nullable = false)
-    @ApiModelProperty(notes = "nome da Categoria",name="nome",required=true)
+
     private String nome;
 }
